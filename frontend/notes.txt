@@ -1,0 +1,69 @@
+--JWT token: JSON web Token. used for the authentication purpose.
+-->It is an open standard used to share security information between two parties.(client and server).
+
+Each JWT contains encoded JSON objects. 
+backend
+install npm install jsonwebtoken --save
+
+
+frontend
+npm install jwt-decode --save
+
+->In react ti decode jwt 
+
+import jwt_decode from 'jwt_decode';
+
+const decode=jwt_decode(token);
+
+->How we send token from react to express through http
+
+axios.get('/xyz',{
+headers:{"Authorization":`Bearer ${token}`}
+
+},data)
+.then(res=>{
+//logic
+})
+
+-->Jwt token compare(middleware)
+
+const jwt=require('jsonwebtoken');
+function authenticateToken(req,res,next){
+const authHeader=req.headers['Authorization']
+const token=authHeader && authHeader.split('')
+if(token==null){
+res.json("err":1,"msg":"")
+}
+else{
+	jwt.verify(token,jwtSecret,(err,data){
+if(err){}
+else{
+next();
+}
+}
+
+08-12-2021
+
+CSRF Token:
+
+ Cross-origin request forgery.
+
+if(req.session.scrf==undefined){
+    req.session.csrf=randomBytes(100).toString('base64')
+}
+
+
+ <input type="hidden" name="csrf" value="kdsufis---"/>
+
+ app.post('/register',(req,res)=>{
+     if(req.body.csrf==undefined){
+         res.send('CSRF token is not included.')
+     }else{
+         if(req.body.csrf!=req.session.csrf){
+             //csrf not match
+         }else{
+                   //code is working
+         }
+      
+     }
+ })
